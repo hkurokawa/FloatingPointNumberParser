@@ -1,2 +1,2 @@
-# FloatingPointNumberParser
+# Parser
 atof implementation just for study
