@@ -8,6 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(JUnitParamsRunner.class)
 public class ParserTest {
   private final Parser parser = new Parser();
+
   @Test
   @Parameters(
       {
