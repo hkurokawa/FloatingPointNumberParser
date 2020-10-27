@@ -16,6 +16,9 @@ public class BigDecimal {
   }
 
   public BigDecimal(String s) {
+    if (s.isEmpty()) {
+      throw new IllegalArgumentException("Cannot parse an empty string");
+    }
     for (int i = 0; i < s.length(); i++) {
       char ch = s.charAt(i);
       if (ch == '.') {
@@ -95,5 +98,9 @@ public class BigDecimal {
 
   @Override public int hashCode() {
     return Objects.hash(digits, dp);
+  }
+
+  public boolean isZero() {
+    return digits.size() == 1 && digits.getFirst() == 0;
   }
 }

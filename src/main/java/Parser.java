@@ -32,6 +32,22 @@ public class Parser {
         d.discardNumberPart();
       }
     }
+    // Round to nearest (even)
+    if (!d.isZero()) {
+      d.multiplyByTwo();
+      if (!d.isLessThanOne()) {
+        d.discardNumberPart();
+        if (d.isZero()) {
+          // Just at the middle of the floating point numbers.  Round to even.
+          if ((mantissa & 1) == 1) {
+            mantissa++;
+          }
+        } else {
+          mantissa++;
+        }
+      }
+    }
+
     int bits = mantissa | (exponent << 23) | (sign << 31);
     return Float.intBitsToFloat(bits);
   }
