@@ -6,9 +6,14 @@ import java.util.Objects;
 
 public class BigDecimal {
   private final LinkedList<Integer> digits = new LinkedList<>(); // Big endian
+  private boolean negative;
   private int dp; // Location of decimal point from right
 
   public BigDecimal(int n) {
+    if (n < 0) {
+      negative = true;
+      n *= -1;
+    }
     do {
       digits.add(n % 10);
       n /= 10;
@@ -16,8 +21,15 @@ public class BigDecimal {
   }
 
   public BigDecimal(String s) {
-    if (s.isEmpty()) {
+    if (s == null || s.isEmpty()) {
       throw new IllegalArgumentException("Cannot parse an empty string");
+    }
+    if (s.startsWith("-")) {
+      s = s.substring(1);
+      negative = true;
+    }
+    if (s.startsWith("+")) {
+      s = s.substring(1);
     }
     for (int i = 0; i < s.length(); i++) {
       char ch = s.charAt(i);
@@ -30,6 +42,10 @@ public class BigDecimal {
       }
     }
     Collections.reverse(digits);
+  }
+
+  public boolean isNegative() {
+    return negative;
   }
 
   public void multiplyByTwo() {

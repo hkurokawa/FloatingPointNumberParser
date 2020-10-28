@@ -9,6 +9,16 @@ public class BigDecimalTest {
   }
 
   @Test
+  public void constructor_Positive() {
+    assertThat(new BigDecimal("+42")).isEqualTo(new BigDecimal(42));
+  }
+
+  @Test
+  public void constructor_Negative() {
+    assertThat(new BigDecimal("-42")).isEqualTo(new BigDecimal(-42));
+  }
+
+  @Test
   public void multiplyByTwo_TwentyOne() {
     var decimal = new BigDecimal(21);
     decimal.multiplyByTwo();
