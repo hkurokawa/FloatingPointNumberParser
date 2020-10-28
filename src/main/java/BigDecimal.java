@@ -51,6 +51,20 @@ public class BigDecimal {
     }
     Collections.reverse(digits);
     dp = digits.size() - dp;
+    format();
+  }
+
+  private void format() {
+    if (dp == digits.size()) {
+      digits.addLast(0);
+    }
+    while (digits.getFirst() == 0 && dp > 0) {
+      digits.removeFirst();
+      dp--;
+    }
+    while (digits.getLast() == 0 && dp < digits.size() - 1) {
+      digits.removeLast();
+    }
   }
 
   public boolean isNegative() {
@@ -66,10 +80,7 @@ public class BigDecimal {
       carry = n / 10;
     }
     if (carry > 0) digits.add(carry);
-    while (digits.getFirst() == 0 && dp > 0) {
-      digits.removeFirst();
-      dp--;
-    }
+    format();
   }
 
   public void divideByTwo() {
@@ -85,8 +96,8 @@ public class BigDecimal {
       digits.add(carry / 2);
       dp++;
     }
-    if (digits.getFirst() == 0 && dp < digits.size() - 1) digits.removeFirst();
     Collections.reverse(digits);
+    format();
   }
 
   public boolean isLessThanOne() {

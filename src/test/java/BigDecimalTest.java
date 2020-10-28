@@ -10,6 +10,16 @@ public class BigDecimalTest {
   }
 
   @Test
+  public void constructor_FirstZeroOmitted() {
+    assertThat(new BigDecimal(".3333")).isEqualTo(new BigDecimal("0.3333"));
+  }
+
+  @Test
+  public void constructor_RedundantZeros() {
+    assertThat(new BigDecimal("000042.0000")).isEqualTo(new BigDecimal(42));
+  }
+
+  @Test
   public void constructor_Positive() {
     assertThat(new BigDecimal("+42")).isEqualTo(new BigDecimal(42));
   }
