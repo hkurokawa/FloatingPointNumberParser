@@ -32,6 +32,7 @@ public class BigDecimal {
       s = s.substring(1);
     }
     dp = -1;
+    int exp = 0;
     for (int i = 0; i < s.length(); i++) {
       char ch = s.charAt(i);
       if (ch == '.') {
@@ -42,6 +43,9 @@ public class BigDecimal {
         dp = i;
       } else if (ch >= '0' && ch <= '9') {
         digits.add(ch - '0');
+      } else if (ch == 'e' || ch == 'E') {
+        exp = Integer.parseInt(s, i + 1, s.length(), 10);
+        i = s.length();
       } else {
         throw new IllegalArgumentException("Unexpected char at " + i + ": " + s);
       }
@@ -51,20 +55,8 @@ public class BigDecimal {
     }
     Collections.reverse(digits);
     dp = digits.size() - dp;
-    format();
-  }
-
-  private void format() {
-    if (dp == digits.size()) {
-      digits.addLast(0);
-    }
-    while (digits.getFirst() == 0 && dp > 0) {
-      digits.removeFirst();
-      dp--;
-    }
-    while (digits.getLast() == 0 && dp < digits.size() - 1) {
-      digits.removeLast();
-    }
+    dp -= exp;
+    normalize();
   }
 
   public boolean isNegative() {
@@ -80,7 +72,7 @@ public class BigDecimal {
       carry = n / 10;
     }
     if (carry > 0) digits.add(carry);
-    format();
+    normalize();
   }
 
   public void divideByTwo() {
@@ -97,7 +89,7 @@ public class BigDecimal {
       dp++;
     }
     Collections.reverse(digits);
-    format();
+    normalize();
   }
 
   public boolean isLessThanOne() {
@@ -112,6 +104,23 @@ public class BigDecimal {
   public void discardNumberPart() {
     while (dp < digits.size() - 1) digits.removeLast();
     digits.set(digits.size() - 1, 0);
+  }
+
+  private void normalize() {
+    while (dp >= digits.size()) {
+      digits.addLast(0);
+    }
+    while (dp < 0) {
+      digits.addFirst(0);
+      dp++;
+    }
+    while (digits.getFirst() == 0 && dp > 0) {
+      digits.removeFirst();
+      dp--;
+    }
+    while (digits.getLast() == 0 && dp < digits.size() - 1) {
+      digits.removeLast();
+    }
   }
 
   @Override public String toString() {

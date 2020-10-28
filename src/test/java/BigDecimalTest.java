@@ -37,6 +37,21 @@ public class BigDecimalTest {
   }
 
   @Test
+  public void constructor_ENotation_FortyTwo() {
+    assertThat(new BigDecimal("0.0042e+4")).isEqualTo(new BigDecimal(42));
+  }
+
+  @Test
+  public void constructor_ENotation_SpeedOfLight() {
+    assertThat(new BigDecimal("2.9979e+8")).isEqualTo(new BigDecimal("299790000"));
+  }
+
+  @Test
+  public void constructor_ENotation_FineStructureConstant() {
+    assertThat(new BigDecimal("7.297352569311e-3")).isEqualTo(new BigDecimal("0.007297352569311"));
+  }
+
+  @Test
   public void isNegative_Positive() {
     assertThat(new BigDecimal(1).isNegative()).isFalse();
   }
