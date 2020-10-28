@@ -31,21 +31,26 @@ public class BigDecimal {
     if (s.startsWith("+")) {
       s = s.substring(1);
     }
+    dp = -1;
     for (int i = 0; i < s.length(); i++) {
       char ch = s.charAt(i);
       if (ch == '.') {
-        if (dp > 0) {
+        if (dp >= 0) {
           throw new IllegalArgumentException("Unexpected decimal point at "
               + i + ". There are more than one decimal points: " + s);
         }
-        dp = s.length() - i - 1;
+        dp = i;
       } else if (ch >= '0' && ch <= '9') {
         digits.add(ch - '0');
       } else {
         throw new IllegalArgumentException("Unexpected char at " + i + ": " + s);
       }
     }
+    if (dp < 0) {
+      dp = digits.size();
+    }
     Collections.reverse(digits);
+    dp = digits.size() - dp;
   }
 
   public boolean isNegative() {
