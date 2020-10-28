@@ -5,9 +5,9 @@ import java.util.ListIterator;
 import java.util.Objects;
 
 public class BigDecimal {
-  private final LinkedList<Integer> digits = new LinkedList<>(); // Big endian
+  private final LinkedList<Integer> digits = new LinkedList<>(); // Digits from right to left
   private boolean negative;
-  private int dp; // Location of decimal point from right
+  private int dp; // Location of decimal point from right, e.g. dp = 4 for 3.1415
 
   public BigDecimal(int n) {
     if (n < 0) {
