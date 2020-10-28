@@ -34,6 +34,10 @@ public class BigDecimal {
     for (int i = 0; i < s.length(); i++) {
       char ch = s.charAt(i);
       if (ch == '.') {
+        if (dp > 0) {
+          throw new IllegalArgumentException("Unexpected decimal point at "
+              + i + ". There are more than one decimal points: " + s);
+        }
         dp = s.length() - i - 1;
       } else if (ch >= '0' && ch <= '9') {
         digits.add(ch - '0');

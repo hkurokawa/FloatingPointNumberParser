@@ -1,6 +1,7 @@
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class BigDecimalTest {
   @Test
@@ -16,6 +17,23 @@ public class BigDecimalTest {
   @Test
   public void constructor_Negative() {
     assertThat(new BigDecimal("-42")).isEqualTo(new BigDecimal(-42));
+  }
+
+  @Test
+  public void constructor_DoubleDecimalPoints_ThrowError() {
+    assertThatThrownBy(() -> new BigDecimal("1.5.2"))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessage("Unexpected decimal point at 3. There are more than one decimal points: 1.5.2");
+  }
+
+  @Test
+  public void isNegative_Positive() {
+    assertThat(new BigDecimal(1).isNegative()).isFalse();
+  }
+
+  @Test
+  public void isNegative_Negative() {
+    assertThat(new BigDecimal(-1).isNegative()).isTrue();
   }
 
   @Test
