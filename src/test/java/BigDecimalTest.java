@@ -148,6 +148,11 @@ public class BigDecimalTest {
   }
 
   @Test
+  public void equals_Negative() {
+    assertThat(new BigDecimal(-42)).isNotEqualTo(new BigDecimal(42));
+  }
+
+  @Test
   public void toString_Zero() {
     var decimal = new BigDecimal(0);
     assertThat(decimal.toString()).isEqualTo("0.");

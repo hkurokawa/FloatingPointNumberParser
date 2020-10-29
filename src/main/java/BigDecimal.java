@@ -141,6 +141,7 @@ public class BigDecimal implements BigNumber {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     BigDecimal that = (BigDecimal) o;
+    if (negative != that.negative) return false;
     if (dp != that.dp) return false;
     return digits.equals(that.digits);
   }
