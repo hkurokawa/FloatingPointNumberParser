@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Objects;
 
-public class BigDecimal {
+public class BigDecimal implements BigNumber {
   private final LinkedList<Integer> digits = new LinkedList<>(); // Digits from right to left
   private boolean negative;
   private int dp; // Location of decimal point from right, e.g. dp = 4 for 3.1415
@@ -59,11 +59,11 @@ public class BigDecimal {
     normalize();
   }
 
-  public boolean isNegative() {
+  @Override public boolean isNegative() {
     return negative;
   }
 
-  public void multiplyByTwo() {
+  @Override public void multiplyByTwo() {
     int carry = 0;
     ListIterator<Integer> iter = digits.listIterator();
     while (iter.hasNext()) {
@@ -75,7 +75,7 @@ public class BigDecimal {
     normalize();
   }
 
-  public void divideByTwo() {
+  @Override public void divideByTwo() {
     Collections.reverse(digits);
     int carry = 0;
     ListIterator<Integer> iter = digits.listIterator();
@@ -92,18 +92,22 @@ public class BigDecimal {
     normalize();
   }
 
-  public boolean isLessThanOne() {
+  @Override public boolean isLessThanOne() {
     return (dp == digits.size() - 1 && digits.getLast() == 0);
   }
 
-  public boolean isEqualToOrGreaterThanTwo() {
+  @Override public boolean isEqualToOrGreaterThanTwo() {
     if (dp != digits.size() - 1) return true; // >= 10
     return digits.getLast() > 1;
   }
 
-  public void discardNumberPart() {
+  @Override public void discardNumberPart() {
     while (dp < digits.size() - 1) digits.removeLast();
     digits.set(digits.size() - 1, 0);
+  }
+
+  @Override public boolean isZero() {
+    return digits.size() == 1 && digits.getFirst() == 0;
   }
 
   private void normalize() {
@@ -143,9 +147,5 @@ public class BigDecimal {
 
   @Override public int hashCode() {
     return Objects.hash(digits, dp);
-  }
-
-  public boolean isZero() {
-    return digits.size() == 1 && digits.getFirst() == 0;
   }
 }

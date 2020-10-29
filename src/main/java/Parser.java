@@ -1,6 +1,6 @@
 public class Parser {
   public float atof(String s) {
-    BigDecimal d = new BigDecimal(s);
+    BigNumber d = new BigDecimal(s);
     int sign = d.isNegative() ? 1 : 0;
     int mantissa = 0;
     int exponent = 0;
