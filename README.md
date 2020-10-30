@@ -1,2 +1,2 @@
 # Parser
-atof implementation just for study
+parseFloat implementation just for study
