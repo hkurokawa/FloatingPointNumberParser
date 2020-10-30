@@ -1,5 +1,5 @@
 public class Parser {
-  public float atof(String s) {
+  public float parseFloat(String s) {
     BigNumber d = BigNumber.parse(s);
     int sign = d.isNegative() ? 1 : 0;
     int mantissa = 0;

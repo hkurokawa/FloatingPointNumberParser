@@ -78,8 +78,8 @@ public class ParserTest {
           "4951760157141521099596496896, 4.9517602e+27",
       }
   )
-  public void atof(String text, float expected) {
-    var actual = parser.atof(text);
+  public void parseFloat(String text, float expected) {
+    var actual = parser.parseFloat(text);
     assertThat(actual).isEqualTo(expected);
   }
 }
