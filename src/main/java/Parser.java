@@ -12,7 +12,19 @@ public class Parser {
       d.multiplyByTwo();
       exponent--;
     }
-    exponent += 127;
+    if (exponent > 127) return d.isNegative() ? Float.NEGATIVE_INFINITY : Float.POSITIVE_INFINITY;
+    if (exponent >= -126) {
+      // normal
+      exponent += 127;
+    } else  {
+      // subnormal
+      // shift the number so that it is in 0.xx..xE-126 format
+      while (exponent < -126) {
+        d.divideByTwo();
+        exponent++;
+      }
+      exponent = 0;
+    }
     d.discardNumberPart();
     for (int i = 22; i >= 0; i--) {
       d.multiplyByTwo();
