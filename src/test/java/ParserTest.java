@@ -12,11 +12,10 @@ public class ParserTest {
   @Test
   @Parameters(
       {
-          "+0, 0",
-          "-0, -0",
           // Hex
           "0x1p-100, 7.888609e-31",
           "0x1p100, 1.2676506e+30",
+
           // Exactly halfway between 1 and the next float32.
           // Round to even (down).
           "1.000000059604644775390625, 1",
@@ -33,6 +32,7 @@ public class ParserTest {
           // Slightly higher, but you have to read all the way to the end.
           "1.00000005960464477539062500000000000000000000000000000000000000000000000000000000000000000000000000000000000000001, 1.0000001",
           "0x1.0000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001p0, 1.0000001",
+
           // largest float32: (1<<128) * (1 - 2^-24)
           "340282346638528859811704183484516925440, 3.4028235e+38",
           "-340282346638528859811704183484516925440, -3.4028235e+38",
@@ -66,10 +66,12 @@ public class ParserTest {
           "1e-44, 1e-44",
           "6e-45, 6e-45", // 4p-149 = 5.6e-45
           "5e-45, 6e-45",
+
           // Smallest denormal
           "1e-45, 1e-45", // 1p-149 = 1.4e-45
           "2e-45, 1e-45",
           "3e-45, 3e-45",
+
           // Near denormals and denormals.
           "0x0.89aBcDp-125, 1.2643093e-38",  // 0x0089abcd
           "0x0.8000000p-125, 1.1754944e-38", // 0x00800000
@@ -82,6 +84,7 @@ public class ParserTest {
           "0x0.00000081p-125, 1e-45",        // rounded up
           "0x0.0000008p-125, 0",             // rounded down
           "0x0.0000007p-125, 0",             // rounded down
+
           // 2^92 = 8388608p+69 = 4951760157141521099596496896 (4.9517602e27)
           // is an exact power of two that needs 8 decimal digits to be correctly
           // parsed back.
@@ -94,6 +97,18 @@ public class ParserTest {
   public void parseFloat(String text, float expected) {
     var actual = parser.parseFloat(text);
     assertThat(actual).isEqualTo(expected);
+  }
+
+  @Test
+  public void parseFloat_PositiveZero() {
+    var actual = parser.parseFloat("+0");
+    assertThat(actual).isEqualTo(0.f);
+  }
+
+  @Test
+  public void parseFloat_NegativeZero() {
+    var actual = parser.parseFloat("-0");
+    assertThat(actual).isEqualTo(-0.f);
   }
 
   @Test
