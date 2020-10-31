@@ -204,6 +204,18 @@ public class ParserTest {
           "-0x0p1025, -0",
           "-0x0p1026, -0",
 
+          // NaNs
+          // TODO: Support NaNs
+          //"nan, NaN",
+          //"NaN, NaN",
+          //"NAN, NaN",
+
+          // Infs
+          // TODO: Support Infinity
+          //"Infinity, +Infinity",
+          //"+Infinity, +Infinity",
+          //"-Infinity, -Infinity",
+
           // largest float64
           "1.7976931348623157e308, 1.7976931348623157e+308",
           "-1.7976931348623157e308, -1.7976931348623157e+308",
@@ -214,15 +226,54 @@ public class ParserTest {
           "0x.1fffffffffffffp1027, 1.7976931348623157e+308",
           "-0x.1fffffffffffffp1027, -1.7976931348623157e+308",
 
+          // next float64 - too large
+          "1.7976931348623159e308, +Infinity",
+          "-1.7976931348623159e308, -Infinity",
+          "0x1p1024, +Infinity",
+          "-0x1p1024, -Infinity",
+          "0x2p1023, +Infinity",
+          "-0x2p1023, -Infinity",
+          "0x.1p1028, +Infinity",
+          "-0x.1p1028, -Infinity",
+          "0x.2p1027, +Infinity",
+          "-0x.2p1027, -Infinity",
+
           // the border is ...158079
           // borderline - okay
           "1.7976931348623158e308, 1.7976931348623157e+308",
           "-1.7976931348623158e308, -1.7976931348623157e+308",
           "0x1.fffffffffffff7fffp1023, 1.7976931348623157e+308",
           "-0x1.fffffffffffff7fffp1023, -1.7976931348623157e+308",
+          // borderline - too large
+          "1.797693134862315808e308, +Infinity",
+          "-1.797693134862315808e308, -Infinity",
+          "0x1.fffffffffffff8p1023, +Infinity",
+          "-0x1.fffffffffffff8p1023, -Infinity",
+          "0x1fffffffffffff.8p+971, +Infinity",
+          "-0x1fffffffffffff8p+967, -Infinity",
+          "0x.1fffffffffffff8p1027, +Infinity",
+          "-0x.1fffffffffffff9p1027, -Infinity",
 
           // a little too large
           "1e308, 1e+308",
+          "2e308, +Infinity",
+          "1e309, +Infinity",
+          "0x1p1025, +Infinity",
+
+          // way too large
+          //TODO: need to improve performance
+          "1e310, +Infinity",
+          "-1e310, -Infinity",
+          "1e400, +Infinity",
+          "-1e400, -Infinity",
+          //"1e400000, +Infinity",
+          //"-1e400000, -Infinity",
+          "0x1p1030, +Infinity",
+          "0x1p2000, +Infinity",
+          //"0x1p2000000000, +Infinity",
+          "-0x1p1030, -Infinity",
+          "-0x1p2000, -Infinity",
+          //"-0x1p2000000000, -Infinity",
 
           // denormalized
           "1e-305, 1e-305",
@@ -294,6 +345,7 @@ public class ParserTest {
           //"0x1p-18446744073709551616, 0",
           //"0x1p+18446744073709551616, +Infinity",
 
+          // Parse errors
           "0x1p+2, 4",
           "0x.1p+2, 0.25",
           "0x1p-2, 0.25",
