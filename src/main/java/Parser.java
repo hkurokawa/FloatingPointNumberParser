@@ -2,6 +2,9 @@ public class Parser {
   public float parseFloat(String s) {
     BigNumber d = BigNumber.parse(s);
     int sign = d.isNegative() ? 1 : 0;
+    if (d.isZero()) {
+      return Float.intBitsToFloat(sign << 31);
+    }
     int mantissa = 0;
     int exponent = 0;
     while (d.isEqualToOrGreaterThanTwo()) {
@@ -53,4 +56,3 @@ public class Parser {
     return Float.intBitsToFloat(bits);
   }
 }
-

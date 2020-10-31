@@ -12,6 +12,8 @@ public class ParserTest {
   @Test
   @Parameters(
       {
+          "+0, 0",
+          "-0, -0",
           // Hex
           "0x1p-100, 7.888609e-31",
           "0x1p100, 1.2676506e+30",
