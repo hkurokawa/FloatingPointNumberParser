@@ -31,6 +31,7 @@ public class BigDecimal implements BigNumber {
     if (s.startsWith("+")) {
       s = s.substring(1);
     }
+    s = s.replace("_", "");
     dp = -1;
     int exp = 0;
     for (int i = 0; i < s.length(); i++) {

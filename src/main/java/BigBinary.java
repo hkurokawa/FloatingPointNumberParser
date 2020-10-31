@@ -35,6 +35,7 @@ public class BigBinary implements BigNumber {
       throw new IllegalArgumentException("The string must start with 0x: " + s);
     }
     s = s.substring(2);
+    s = s.replace("_", "");
     dp = -1;
     int exp = 0;
     for (int i = 0; i < s.length(); i++) {
