@@ -39,12 +39,23 @@ public class ParserTest {
           "0x.ffffffp128, 3.4028235e+38",
           "-340282346638528859811704183484516925440, -3.4028235e+38",
           "-0x.ffffffp128, -3.4028235e+38",
+          // next float32 - too large
+          "3.4028236e38, +Infinity",
+          "-3.4028236e38, -Infinity",
+          "0x1.0p128, +Infinity",
+          "-0x1.0p128, -Infinity",
           // the border is 3.40282356779...e+38
           // borderline - okay
           "3.402823567e38, 3.4028235e+38",
           "-3.402823567e38, -3.4028235e+38",
           "0x.ffffff7fp128, 3.4028235e+38",
           "-0x.ffffff7fp128, -3.4028235e+38",
+          // borderline - too large
+          "3.4028235678e38, +Infinity",
+          "-3.4028235678e38, -Infinity",
+          "0x.ffffff8p128, +Infinity",
+          "-0x.ffffff8p128, -Infinity",
+
           // Denormals: less than 2^-126
           "1e-38, 1e-38",
           "1e-39, 1e-39",
@@ -260,13 +271,13 @@ public class ParserTest {
           // try to overflow exponent
           //TODO: need to improve performance
           //"1e-4294967296, 0",
-          //"1e+4294967296, +Inf",
+          //"1e+4294967296, +Infinity",
           //"1e-18446744073709551616, 0",
-          //"1e+18446744073709551616, +Inf",
+          //"1e+18446744073709551616, +Infinity",
           //"0x1p-4294967296, 0",
-          //"0x1p+4294967296, +Inf",
+          //"0x1p+4294967296, +Infinity",
           //"0x1p-18446744073709551616, 0",
-          //"0x1p+18446744073709551616, +Inf",
+          //"0x1p+18446744073709551616, +Infinity",
 
           "0x1p+2, 4",
           "0x.1p+2, 0.25",
