@@ -84,4 +84,11 @@ public class ParserTest {
     var actual = parser.parseFloat(text);
     assertThat(actual).isEqualTo(expected);
   }
+
+  @Test
+  public void parseFloat_MantissaRoundedUp() {
+    var actual = parser.parseFloat("0x1.ffffffp-110");
+    var expected = 1.5407439555097887e-33f;
+    assertThat(actual).isEqualTo(expected);
+  }
 }

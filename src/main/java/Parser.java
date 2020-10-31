@@ -19,7 +19,7 @@ public class Parser {
     if (exponent >= -126) {
       // normal
       exponent += 127;
-    } else  {
+    } else {
       // subnormal
       // shift the number so that it is in 0.1x..xE-126 format
       while (exponent < -126) {
@@ -48,6 +48,14 @@ public class Parser {
           }
         } else {
           mantissa++;
+        }
+        if (mantissa == 0x800000) {
+          // The mantissa is out of the range.  The exponent needs to be incremented.
+          mantissa = 0;
+          exponent++;
+          if (exponent > 127) {
+            return d.isNegative() ? Float.NEGATIVE_INFINITY : Float.POSITIVE_INFINITY;
+          }
         }
       }
     }
