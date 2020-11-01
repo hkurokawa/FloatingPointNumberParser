@@ -21,7 +21,7 @@ public class Parser {
       exponent += 127;
     } else {
       // subnormal
-      // shift the number so that it is in 0.1x..xE-126 format
+      // shift the number so that it is in 0.xx..xE-126 format
       while (exponent < -126) {
         d.divideByTwo();
         exponent++;
@@ -86,7 +86,7 @@ public class Parser {
       exponent += 1023;
     } else {
       // subnormal
-      // shift the number so that it is in 0.1x..xE-1022 format
+      // shift the number so that it is in 0.xx..xE-1022 format
       while (exponent < -1022) {
         d.divideByTwo();
         exponent++;
