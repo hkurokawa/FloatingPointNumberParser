@@ -52,6 +52,16 @@ public class BigDecimalTest {
   }
 
   @Test
+  public void constructor_LargeE_DoesNotThrowError() {
+    new BigDecimal("1e40000000000");
+  }
+
+  @Test
+  public void constructor_NegativeLargeE_DoesNotThrowError() {
+    new BigDecimal("1e-400000000000");
+  }
+
+  @Test
   public void isNegative_Positive() {
     assertThat(new BigDecimal(1).isNegative()).isFalse();
   }

@@ -5,6 +5,8 @@ import java.util.ListIterator;
 import java.util.Objects;
 
 public class BigDecimal implements BigNumber {
+  // The maximum value of e, e.g. 1e+100000 or 1e-100000
+  private static final int MAX_E = 100000;
   private final LinkedList<Integer> digits = new LinkedList<>(); // Digits from right to left
   private boolean negative;
   private int dp; // Location of decimal point from right, e.g. dp = 4 for 3.1415
@@ -45,8 +47,8 @@ public class BigDecimal implements BigNumber {
       } else if (ch >= '0' && ch <= '9') {
         digits.add(ch - '0');
       } else if (ch == 'e' || ch == 'E') {
-        exp = Integer.parseInt(s, i + 1, s.length(), 10);
-        i = s.length();
+        exp = parseExp(s.substring(i + 1));
+        break;
       } else {
         throw new IllegalArgumentException("Unexpected char at " + i + ": " + s);
       }
@@ -58,6 +60,25 @@ public class BigDecimal implements BigNumber {
     dp = digits.size() - dp;
     dp -= exp;
     normalize();
+  }
+
+  private static int parseExp(String s) {
+    int exp = 0;
+    int esign = 1;
+    for (int i = 0; i < s.length(); i++) {
+      var c = s.charAt(i);
+      if (c == '+') continue;
+      if (c == '-') {
+        esign = -1;
+      } else if (c >= '0' && c <= '9') {
+        // TODO: This is a temporary fix because it does not take dp into account
+        if (exp < MAX_E) exp = 10 * exp + (c - '0');
+      } else {
+        throw new IllegalArgumentException("Unexpected char [" + c + "] at index " + i + ": " + s);
+      }
+    }
+    exp *= esign;
+    return exp;
   }
 
   @Override public boolean isNegative() {

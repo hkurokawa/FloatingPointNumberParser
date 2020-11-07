@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.Objects;
 
 public class BigBinary implements BigNumber {
+  // The maximum value of p, e.g. 0x1.0p+100000 or 0x1.0p-100000
+  private static final int MAX_P = 100000;
   private final LinkedList<Integer> digits = new LinkedList<>(); // Digits from right to left
   private boolean negative;
   private int dp; // Location of decimal point from right, e.g. dp = 4 for 1.0001
@@ -53,8 +55,8 @@ public class BigBinary implements BigNumber {
         digits.add(b >> 1 & 1);
         digits.add(b & 1);
       } else if (ch == 'p' || ch == 'P') {
-        exp = Integer.parseInt(s, i + 1, s.length(), 10);
-        i = s.length();
+        exp = parseExp(s.substring(i + 1));
+        break;
       } else {
         throw new IllegalArgumentException("Unexpected char at " + i + ": " + s);
       }
@@ -66,6 +68,25 @@ public class BigBinary implements BigNumber {
     dp = digits.size() - dp;
     dp -= exp;
     normalize();
+  }
+
+  private static int parseExp(String s) {
+    int exp = 0;
+    int psign = 1;
+    for (int i = 0; i < s.length(); i++) {
+      var c = s.charAt(i);
+      if (c == '+') continue;
+      if (c == '-') {
+        psign = -1;
+      } else if (c >= '0' && c <= '9') {
+        // TODO: This is a temporary fix because it does not take dp into account
+        if (exp < MAX_P) exp = 10 * exp + (c - '0');
+      } else {
+        throw new IllegalArgumentException("Unexpected char [" + c + "] at index " + i + ": " + s);
+      }
+    }
+    exp *= psign;
+    return exp;
   }
 
   @Override public boolean isNegative() {

@@ -34,6 +34,16 @@ public class BigBinaryTest {
   }
 
   @Test
+  public void constructor_LargeP_DoesNotThrowError() {
+    new BigBinary("0x1p40000000000");
+  }
+
+  @Test
+  public void constructor_NegativeLargeP_DoesNotThrowError() {
+    new BigBinary("0x1p-400000000000");
+  }
+
+  @Test
   public void isNegative_Negative() {
     assertThat(new BigBinary("-0x0").isNegative()).isTrue();
   }
